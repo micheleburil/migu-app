@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MiGu</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">MG</div>
+          <div>
+            <strong>MiGu</strong>
+            <span>Plano para morar juntos</span>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Navegacao principal">
+          <button class="nav-item active" data-view="dashboard">Inicio</button>
+          <button class="nav-item" data-view="furniture">Moveis</button>
+          <button class="nav-item" data-view="budget">Orcamentos</button>
+          <button class="nav-item" data-view="finance">Financeiro</button>
+          <button class="nav-item" data-view="debts">Dividas</button>
+          <button class="nav-item" data-view="simulator">Simulador</button>
+          <button class="nav-item" data-view="settings">Editar app</button>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Junho de 2026</p>
+            <h1 id="screenTitle">Inicio</h1>
+          </div>
+          <div class="top-actions">
+            <button class="icon-button" id="toggleEdit" title="Modo edicao">Editar</button>
+            <button class="icon-button" id="toggleTheme" title="Mudar tema">Tema</button>
+          </div>
+        </header>
+
+        <section class="view active" id="dashboard">
+          <div class="hero-band">
+            <div>
+              <p class="eyebrow">Meta do casal</p>
+              <h2 id="heroMessage">O ape de voces esta tomando forma.</h2>
+              <p id="heroSub">Atualize os valores e veja se o plano fecha na data.</p>
+            </div>
+            <div class="signal" id="goalSignal">
+              <span>Farol</span>
+              <strong>Verde</strong>
+            </div>
+          </div>
+
+          <div class="grid metrics" id="dashboardCards"></div>
+
+          <div class="two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <h3>Meta principal</h3>
+                <span id="goalPercent">0%</span>
+              </div>
+              <div class="progress"><span id="goalProgress"></span></div>
+              <form class="form-grid" id="goalForm">
+                <label>Meta total<input name="goalTotal" type="number" min="0"></label>
+                <label>Valor guardado<input name="savedTotal" type="number" min="0"></label>
+                <label>Data da mudanca<input name="moveDate" type="date"></label>
+                <label>Aporte mensal<input name="monthlySaving" type="number" min="0"></label>
+                <button type="submit">Salvar meta</button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h3>Proximas compras</h3>
+                <span id="pendingCount">0 itens</span>
+              </div>
+              <div class="compact-list" id="quickFurniture"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="furniture">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Moveis e itens</h3>
+              <span>Arraste pelo status no modo edicao</span>
+            </div>
+            <form class="form-grid wide" id="furnitureForm">
+              <label>Item<input name="name" required placeholder="Sofa, cama, geladeira"></label>
+              <label>Categoria<input name="category" placeholder="Sala"></label>
+              <label>Valor<input name="value" type="number" min="0"></label>
+              <label>Link<input name="link" type="url" placeholder="https://"></label>
+              <label>Imagem<input name="image" type="url" placeholder="URL da imagem"></label>
+              <label>Prioridade<select name="priority"><option>Essencial</option><option>Importante</option><option>Depois</option></select></label>
+              <button type="submit">Adicionar item</button>
+            </form>
+          </div>
+          <div class="kanban" id="furnitureBoard"></div>
+        </section>
+
+        <section class="view" id="budget">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Orcamentos</h3>
+              <span>Compare opcoes por item</span>
+            </div>
+            <form class="form-grid wide" id="budgetForm">
+              <label>Item<select name="itemId" id="budgetItemSelect"></select></label>
+              <label>Loja<input name="store" required></label>
+              <label>Produto<input name="product" type="number" min="0"></label>
+              <label>Frete<input name="shipping" type="number" min="0"></label>
+              <label>Link<input name="link" type="url"></label>
+              <label>Imagem<input name="image" type="url"></label>
+              <button type="submit">Adicionar orcamento</button>
+            </form>
+          </div>
+          <div class="grid cards" id="budgetList"></div>
+        </section>
+
+        <section class="view" id="finance">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Financeiro mensal</h3>
+              <span>Controle manual do casal</span>
+            </div>
+            <form class="form-grid" id="financeForm">
+              <label>Receita pessoa 1<input name="incomeA" type="number" min="0"></label>
+              <label>Receita pessoa 2<input name="incomeB" type="number" min="0"></label>
+              <label>Gastos fixos<input name="fixedCosts" type="number" min="0"></label>
+              <label>Pagamentos de dividas<input name="debtPayments" type="number" min="0"></label>
+              <button type="submit">Salvar financeiro</button>
+            </form>
+          </div>
+          <div class="grid metrics" id="financeCards"></div>
+        </section>
+
+        <section class="view" id="debts">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Dividas</h3>
+              <span>Plano para quitar ate uma data</span>
+            </div>
+            <form class="form-grid wide" id="debtForm">
+              <label>Nome<input name="name" required></label>
+              <label>Responsavel<input name="owner" placeholder="Mi ou Gu"></label>
+              <label>Valor total<input name="total" type="number" min="0"></label>
+              <label>Valor pago<input name="paid" type="number" min="0"></label>
+              <label>Parcela minima<input name="minimum" type="number" min="0"></label>
+              <label>Quitar ate<input name="dueDate" type="date"></label>
+              <button type="submit">Adicionar divida</button>
+            </form>
+          </div>
+          <div class="grid cards" id="debtList"></div>
+        </section>
+
+        <section class="view" id="simulator">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Simulador</h3>
+              <span>Teste cenarios antes de decidir</span>
+            </div>
+            <form class="form-grid" id="simForm">
+              <label>Valor que querem juntar<input name="target" type="number" min="0"></label>
+              <label>Ja guardado<input name="saved" type="number" min="0"></label>
+              <label>Valor por mes<input name="monthly" type="number" min="0"></label>
+              <label>Data desejada<input name="date" type="date"></label>
+              <button type="submit">Simular</button>
+            </form>
+          </div>
+          <div class="result-card" id="simResult">Preencha os campos para simular o plano.</div>
+        </section>
+
+        <section class="view" id="settings">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Editar app</h3>
+              <span>Personalize o MiGu</span>
+            </div>
+            <form class="form-grid" id="settingsForm">
+              <label>Nome da tela inicial<input name="homeTitle"></label>
+              <label>Cor principal<input name="primary" type="color"></label>
+              <label>Cor de apoio<input name="accent" type="color"></label>
+              <label>Tema<select name="theme"><option value="light">Claro</option><option value="dark">Escuro</option></select></label>
+              <button type="submit">Salvar aparencia</button>
+              <button type="button" id="resetApp">Restaurar padrao</button>
+            </form>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Cards da tela inicial</h3>
+              <span>Use as setas para mudar a ordem</span>
+            </div>
+            <div class="compact-list" id="cardOrder"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
